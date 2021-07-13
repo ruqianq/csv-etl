@@ -1,5 +1,5 @@
 import unittest
-from epa_tri_data_extractor import fetch_epa_tri_table, construct_query_str
+from extractor import fetch_epa_tri_table, construct_query_str
 from models.query_condition import QueryConditionByTable, ColumnCondition
 
 

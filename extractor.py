@@ -17,6 +17,7 @@ def construct_query_str(query_conditions: [QueryConditionByTable], output_format
     return query_str + f'/{output_format}'
 
 
-def fetch_epa_tri_table(query_str: str) -> List:
+def fetch_epa_tri_table(query_str: str, start_row: int = 0, end_row: int = 10000) -> List:
+
     output_table = []
     return output_table
