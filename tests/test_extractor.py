@@ -11,10 +11,16 @@ class ExtractorTestCase(unittest.TestCase):
         cls.query_condition_with_condition = QueryConditionByTable(table_name='tri_facility',
                                                                    column_conditions=[cls.column_condition])
 
-    def test_construct_query_str(self):
+    def test_construct_query_str_no_rows(self):
         self.assertEqual(construct_query_str([self.query_condition_with_condition,
                                               self.query_condition_no_column_condition]),
                          '/tri_facility/state/=/VA/tri_facility/JSON')
+
+    def test_construct_query_str_with_rows(self):
+        self.assertEqual(construct_query_str([self.query_condition_with_condition,
+                                              self.query_condition_no_column_condition], rows='20:100'),
+                         '/tri_facility/state/=/VA/tri_facility/JSON/rows/20:100')
+
 
 
 if __name__ == '__main__':
