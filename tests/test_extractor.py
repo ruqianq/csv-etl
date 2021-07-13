@@ -14,7 +14,7 @@ class ExtractorTestCase(unittest.TestCase):
     def test_construct_query_str(self):
         self.assertEqual(construct_query_str([self.query_condition_with_condition,
                                               self.query_condition_no_column_condition]),
-                         '/tri_facility/state/=/VA/tri_facility')
+                         '/tri_facility/state/=/VA/tri_facility/JSON')
 
 
 if __name__ == '__main__':

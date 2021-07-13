@@ -7,15 +7,16 @@ from models.query_condition import QueryConditionByTable
 logger = logging.getLogger(__name__)
 
 
-def construct_query_str(query_conditions: [QueryConditionByTable]) -> str:
+def construct_query_str(query_conditions: [QueryConditionByTable], output_format: str = 'JSON') -> str:
     query_str = ''
     if query_conditions:
         for q in query_conditions:
             query_str += str(q)
-    return query_str
+    query_str = query_str
+    logger.info(f'Query data based on {query_str}/{output_format}')
+    return query_str + f'/{output_format}'
 
 
-def fetch_epa_tri_table(query_str: str, output_format: str = 'JSON') -> List:
+def fetch_epa_tri_table(query_str: str) -> List:
     output_table = []
     return output_table
-
