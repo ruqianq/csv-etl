@@ -1,8 +1,8 @@
 import unittest
-from models.output import ToxicAirPollutionByCompany
+from models.toxic_air_pollution_by_company_dto import ToxicAirPollutionByCompany
 
 
-class OutputModel(unittest.TestCase):
+class ToxicAirPollutionByCompanyDTO(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
