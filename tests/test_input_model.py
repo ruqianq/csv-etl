@@ -20,7 +20,7 @@ class TriFacilityTest(unittest.TestCase):
         cls.query_condition_no_column_condition = QueryCondition(table_name='tri_facility')
         cls.column_condition = ColumnCondition(column_name='state', column_value='VA')
         cls.query_condition_with_condition = QueryCondition(table_name='tri_facility',
-                                                            column_condition=[cls.column_condition])
+                                                            column_conditions=[cls.column_condition])
 
     def test_create_tri_facility_class(self):
         self.assertEqual(self.abc_facility.tri_facility_id, '23323HNSNP381CK')
@@ -32,7 +32,16 @@ class TriFacilityTest(unittest.TestCase):
         self.assertEqual(self.query_condition_no_column_condition.table_name, 'tri_facility')
 
     def test_create_query_condition_with_condition(self):
-        self.assertEqual(self.query_condition_with_condition.column_condition[0], self.column_condition)
+        self.assertEqual(self.query_condition_with_condition.column_conditions[0], self.column_condition)
+
+    def test_create_column_conditon_str(self):
+        self.assertEqual(str(self.column_condition), '/state/=/VA')
+
+    def test_create_query_condition_str_no_column_condition(self):
+        self.assertEqual(str(self.query_condition_no_column_condition), '/tri_facility')
+
+    def test_create_query_condition_str_with_column_condition(self):
+        self.assertEqual(str(self.query_condition_with_condition), '/tri_facility/state/=/VA')
 
 
 if __name__ == '__main__':
