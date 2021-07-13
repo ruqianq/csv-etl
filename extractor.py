@@ -1,6 +1,5 @@
 import logging
 import requests
-from typing import List
 
 from models.query_condition import QueryConditionByTable
 
@@ -20,7 +19,6 @@ def construct_query_str(query_conditions: [QueryConditionByTable], output_format
     return query_str + f'/{output_format}'
 
 
-def fetch_epa_tri_table(query_str: str, start_row: int = 0, end_row: int = 10000) -> List:
+def fetch_epa_tri_table(query_str: str) -> requests.Response:
+    return requests.get(query_str)
 
-    output_table = []
-    return output_table
