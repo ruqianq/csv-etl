@@ -2,7 +2,7 @@ import unittest
 from models.toxic_air_pollution_by_company_dto import ToxicAirPollutionByCompany
 
 
-class ToxicAirPollutionByCompanyDTO(unittest.TestCase):
+class TestOutputModel(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
