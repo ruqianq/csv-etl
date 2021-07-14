@@ -1,5 +1,5 @@
 import unittest
-from models.toxic_air_pollution_by_company_dto import ToxicAirPollutionByCompany
+from models.output import ToxicAirPollutionByCompany
 
 
 class TestOutputModel(unittest.TestCase):
