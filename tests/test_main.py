@@ -52,17 +52,7 @@ class MainTest(unittest.TestCase):
                 'REGION': 2,
                 'FAC_CLOSED_IND': 0,
                 'PARENT_CO_NAME': "DADE INTERNATIONAL INC",
-                'TRI_REPORTING_FORM': [
-                    {
-                        'DOC_CTRL_NUM': 1388025625536,
-                        'ACTIVE_STATUS': 1,
-                        'TRI_FACILITY_ID': "00602BXTRHRD115",
-                        'TRI_CHEM_ID': "0000067561",
-                        'REPORTING_YEAR': 1988,
-                        'MAX_AMOUNT_OF_CHEM': "04",
-                        'CAS_CHEM_NAME': "Methanol",
-                    }
-                ]
+                'TRI_REPORTING_FORM': []
             }
         ]
 
@@ -90,14 +80,12 @@ class MainTest(unittest.TestCase):
                                                                   county_name="AGUADA MUNICIPIO", state_abbr="PR",
                                                                   zip_code="00602", region=2, fac_closed_ind=0,
                                                                   parent_co_name="DADE INTERNATIONAL INC"),
-                                         tri_reporting_forms=[
-                                             TriReportingForm(doc_ctrl_num=1388025625536, active_status=1,
-                                                              tri_facility_id="00602BXTRHRD115",
-                                                              tri_chem_id="0000067561", report_year=1988,
-                                                              max_amount_of_chem="04", cas_chem_name="Methanol")
-                                         ])
+                                         tri_reporting_forms=[])
         ]
-        self.assertEqual(expected_output, parse_json_to_input_model(self.mock_json_response))
+        self.assertEqual(expected_output[1].tri_facility.tri_facility_id,
+                         parse_json_to_input_model(self.mock_json_response)[1].tri_facility.tri_facility_id)
+        self.assertEqual(2, len(parse_json_to_input_model(self.mock_json_response)))
+        self.assertEqual([], parse_json_to_input_model(self.mock_json_response)[1].tri_reporting_forms)
 
 
 if __name__ == '__main__':
