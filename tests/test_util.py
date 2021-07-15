@@ -1,9 +1,10 @@
 import unittest
-from extractor import fetch_epa_tri_table, construct_query_str
+from util import construct_query_str
 from models.query_condition import QueryConditionByTable, ColumnCondition
 
 
-class ExtractorTestCase(unittest.TestCase):
+class TestExtractor(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls) -> None:
         cls.query_condition_no_column_condition = QueryConditionByTable(table_name='tri_facility')
@@ -20,7 +21,6 @@ class ExtractorTestCase(unittest.TestCase):
         self.assertEqual(construct_query_str([self.query_condition_with_condition,
                                               self.query_condition_no_column_condition], rows='20:100'),
                          '/tri_facility/state/=/VA/tri_facility/JSON/rows/20:100')
-
 
 
 if __name__ == '__main__':

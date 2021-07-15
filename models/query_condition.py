@@ -23,4 +23,3 @@ class QueryConditionByTable:
                 column_str += str(c)
             return f'/{self.table_name}{column_str}'
         return f'/{self.table_name}'
-
