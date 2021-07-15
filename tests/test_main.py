@@ -72,7 +72,7 @@ class MainTest(unittest.TestCase):
                 tri_facility=TriFacility(tri_facility_id="00602BXTRF111CO",
                                          facility_name="BAXTER HEALTHCARE CORP, FENWAL DIV",
                                          street_address="111 COLON ST", city_name="AGUADA",
-                                         county_name="AGUADA MUNICIPIO",state_abbr="PR", zip_code="00602", region=2,
+                                         county_name="AGUADA MUNICIPIO", state_abbr="PR", zip_code="00602", region=2,
                                          fac_closed_ind=1, parent_co_name="BAXTER SALES CORP"
                                          ),
                 tri_reporting_forms=[
