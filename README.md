@@ -1,5 +1,8 @@
 # csv-etl
 
+Here is the example script to fetch data from Envirofacts Data Service API
+The script would generate a csv under `out` directory.
+
 ## Installation
 
 **Installation via `requirements.txt`**:
@@ -21,4 +24,5 @@ $ pipenv update
 $ python main.py
 ```
 
-
+## Reference
+Envirofacts Data Service API: https://www.epa.gov/enviro/envirofacts-data-service-api
