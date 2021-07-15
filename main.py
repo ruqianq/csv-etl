@@ -3,9 +3,15 @@ from typing import List
 
 import requests
 
+from models.query_condition import QueryConditionByTable
 from util import construct_query_str
 from models.input import TriReportingFormsPerFacility, TriFacility, TriReportingForm
 from models.output import ToxicAirPollutionByCompany
+
+
+def fetch_epa_tri_table(query: str) -> requests.Response:
+    request_url = f'https://enviro.epa.gov/enviro/efservice{query}'
+    return requests.get(request_url)
 
 
 def parse_json_to_input_model(json_response) -> List[TriReportingFormsPerFacility]:
@@ -72,9 +78,11 @@ def convert_output_model_to_csv(toxic_air_pollution_by_company_list:List[ToxicAi
 
 
 if __name__ == '__main__':
-    query_str = construct_query_str()
-
-
-def fetch_epa_tri_table(query_str: str) -> requests.Response:
-    request_url = f'https://enviro.epa.gov/enviro/efservice{query_str}'
-    return requests.get(request_url)
+    tri_facility_table_query = QueryConditionByTable(table_name='tri_facility')
+    tri_reporting_form_table_query = QueryConditionByTable(table_name='tri_reporting_form')
+    # Retrieve the first 500 row of joined table of tri_facility and tri_reporting _form table
+    query_str = construct_query_str([tri_facility_table_query, tri_reporting_form_table_query], rows='0:499')
+    reponse = fetch_epa_tri_table(query_str)
+    tri_reporting_forms_per_facility_list = parse_json_to_input_model(reponse.json())
+    toxic_air_pollution_by_company_list = transform_input_to_output_model(tri_reporting_forms_per_facility_list)
+    convert_output_model_to_csv(toxic_air_pollution_by_company_list)

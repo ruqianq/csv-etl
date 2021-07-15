@@ -4,6 +4,7 @@ from models.query_condition import QueryConditionByTable, ColumnCondition
 
 
 class TestExtractor(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls) -> None:
         cls.query_condition_no_column_condition = QueryConditionByTable(table_name='tri_facility')
