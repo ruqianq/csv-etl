@@ -1,5 +1,5 @@
 import unittest
-from extractor import fetch_epa_tri_table, construct_query_str
+from util import construct_query_str
 from models.query_condition import QueryConditionByTable, ColumnCondition
 
 
@@ -20,11 +20,6 @@ class TestExtractor(unittest.TestCase):
         self.assertEqual(construct_query_str([self.query_condition_with_condition,
                                               self.query_condition_no_column_condition], rows='20:100'),
                          '/tri_facility/state/=/VA/tri_facility/JSON/rows/20:100')
-
-    def test_fetch_epa_tri_facility_count(self):
-        test_query = construct_query_str([self.query_condition_with_condition], rows='10:11')
-        response = fetch_epa_tri_table(test_query)
-        self.assertEqual(response.status_code, 200)
 
 
 if __name__ == '__main__':

@@ -1,6 +1,9 @@
 import csv
 from typing import List
 
+import requests
+
+from util import construct_query_str
 from models.input import TriReportingFormsPerFacility, TriFacility, TriReportingForm
 from models.output import ToxicAirPollutionByCompany
 
@@ -25,8 +28,9 @@ def parse_json_to_input_model(json_response) -> List[TriReportingFormsPerFacilit
                                                                         max_amount_of_chem=j['MAX_AMOUNT_OF_CHEM'],
                                                                         cas_chem_name=j['CAS_CHEM_NAME'])
                 tri_reporting_forms.append(tri_reporting_form)
-        tri_reporting_forms_per_facility_list.append(TriReportingFormsPerFacility(tri_facility=tri_facility,
-                                                                                  tri_reporting_forms=tri_reporting_forms))
+        tri_reporting_forms_per_facility_list.append(
+            TriReportingFormsPerFacility(tri_facility=tri_facility, tri_reporting_forms=tri_reporting_forms)
+        )
     return tri_reporting_forms_per_facility_list
 
 
@@ -65,3 +69,12 @@ def convert_output_model_to_csv(toxic_air_pollution_by_company_list:List[ToxicAi
         for i in toxic_air_pollution_by_company_list:
             writer.writerow([i.company_name, i.tri_facility_id, i.toxic_air_pollution, i.street_address, i.city_name,
                              i.county_name, i.state_abbr, i.zip_code, i.cas_chem_names])
+
+
+if __name__ == '__main__':
+    query_str = construct_query_str()
+
+
+def fetch_epa_tri_table(query_str: str) -> requests.Response:
+    request_url = f'https://enviro.epa.gov/enviro/efservice{query_str}'
+    return requests.get(request_url)

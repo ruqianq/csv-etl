@@ -2,9 +2,11 @@ import csv
 import unittest
 from typing import List
 
-from main import parse_json_to_input_model, transform_input_to_output_model, convert_output_model_to_csv
+from main import parse_json_to_input_model, transform_input_to_output_model, convert_output_model_to_csv, \
+    fetch_epa_tri_table
 from models.input import TriReportingFormsPerFacility, TriFacility, TriReportingForm
 from models.output import ToxicAirPollutionByCompany
+from util import construct_query_str
 
 
 class MainTest(unittest.TestCase):
@@ -57,6 +59,11 @@ class MainTest(unittest.TestCase):
                 'TRI_REPORTING_FORM': []
             }
         ]
+
+    # def test_fetch_epa_tri_facility_count(self):
+    #     test_query = construct_query_str([self.query_condition_with_condition], rows='10:11')
+    #     response = fetch_epa_tri_table(test_query)
+    #     self.assertEqual(response.status_code, 200)
 
     def test_parse_json_to_input_model(self):
         expected_output: List[TriReportingFormsPerFacility] = [
