@@ -1,6 +1,7 @@
 # csv-etl
 
-Here is the example script to fetch data from Envirofacts Data Service API
+Here is the example script to fetch data from Envirofacts Data Service API.
+
 The script would generate a csv under `out` directory.
 
 ## Installation
