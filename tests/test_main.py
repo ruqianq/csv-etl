@@ -1,7 +1,8 @@
+import csv
 import unittest
 from typing import List
 
-from main import parse_json_to_input_model, transform_input_to_output_model
+from main import parse_json_to_input_model, transform_input_to_output_model, convert_output_model_to_csv
 from models.input import TriReportingFormsPerFacility, TriFacility, TriReportingForm
 from models.output import ToxicAirPollutionByCompany
 
@@ -90,15 +91,30 @@ class MainTest(unittest.TestCase):
 
     def test_transform_input_to_output_model(self):
         expected_output: List[ToxicAirPollutionByCompany] = [
-            ToxicAirPollutionByCompany(tri_facility_id="00602BXTRF111CO", company_names="AGUADA MUNICIPIO",
+            ToxicAirPollutionByCompany(tri_facility_id="00602BXTRF111CO", company_name="BAXTER SALES CORP",
                                        toxic_air_pollution=4, street_address="111 COLON ST", city_name="AGUADA",
                                        county_name="AGUADA MUNICIPIO", state_abbr="PR", zip_code="00602",
-                                       cas_chem_names=['Ethylene oxide'])]
+                                       cas_chem_names='Ethylene oxide')
+        ]
         test_input_model = parse_json_to_input_model(self.mock_json_response)
         self.assertEqual(expected_output[0].toxic_air_pollution,
                          transform_input_to_output_model(test_input_model)[0].toxic_air_pollution)
         self.assertEqual(expected_output[0].cas_chem_names,
                          transform_input_to_output_model(test_input_model)[0].cas_chem_names)
+
+    def test_convert_output_model_to_csv(self):
+        test_input_model = parse_json_to_input_model(self.mock_json_response)
+        test_output_model = transform_input_to_output_model(test_input_model)[0]
+
+        convert_output_model_to_csv([test_output_model], 'test_output.csv')
+        with open('test_output.csv') as csv_file:
+            csv_reader = csv.reader(csv_file)
+            next(csv_reader)
+            for row in csv_reader:
+                self.assertEqual(9, len(row))
+                self.assertEqual(
+                    ['BAXTER SALES CORP', '00602BXTRF111CO', '4', '111 COLON ST', 'AGUADA', 'AGUADA MUNICIPIO',
+                     'PR', '00602', 'Ethylene oxide'], row)
 
 
 if __name__ == '__main__':

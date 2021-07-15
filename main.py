@@ -1,3 +1,4 @@
+import csv
 from typing import List
 
 from models.input import TriReportingFormsPerFacility, TriFacility, TriReportingForm
@@ -46,10 +47,21 @@ def transform_input_to_output_model(
                     cas_chem_names.append(j.cas_chem_name)
 
         toxic_air_pollution_by_company: ToxicAirPollutionByCompany = ToxicAirPollutionByCompany(
-            tri_facility_id=i.tri_facility.tri_facility_id, company_names=i.tri_facility.parent_co_name,
+            tri_facility_id=i.tri_facility.tri_facility_id, company_name=i.tri_facility.parent_co_name,
             street_address=i.tri_facility.street_address, city_name=i.tri_facility.city_name,
             county_name=i.tri_facility.county_name, state_abbr=i.tri_facility.state_abbr,
-            zip_code=i.tri_facility.zip_code, cas_chem_names=cas_chem_names, toxic_air_pollution=toxic_air_pollution)
+            zip_code=i.tri_facility.zip_code, cas_chem_names=' '.join(cas_chem_names),
+            toxic_air_pollution=toxic_air_pollution)
         toxic_air_pollution_by_company_list.append(toxic_air_pollution_by_company)
 
     return toxic_air_pollution_by_company_list
+
+
+def convert_output_model_to_csv(toxic_air_pollution_by_company_list:List[ToxicAirPollutionByCompany],
+                                output_csv_path: str):
+    with open(output_csv_path, 'w',) as csv_file:
+        writer = csv.writer(csv_file)
+        writer.writerow(['company name', ''])
+        for i in toxic_air_pollution_by_company_list:
+            writer.writerow([i.company_name, i.tri_facility_id, i.toxic_air_pollution, i.street_address, i.city_name,
+                             i.county_name, i.state_abbr, i.zip_code, i.cas_chem_names])
