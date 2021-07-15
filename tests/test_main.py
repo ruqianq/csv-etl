@@ -1,8 +1,9 @@
 import unittest
 from typing import List
 
-from main import parse_json_to_input_model
+from main import parse_json_to_input_model, transform_input_to_output_model
 from models.input import TriReportingFormsPerFacility, TriFacility, TriReportingForm
+from models.output import ToxicAirPollutionByCompany
 
 
 class MainTest(unittest.TestCase):
@@ -86,6 +87,18 @@ class MainTest(unittest.TestCase):
                          parse_json_to_input_model(self.mock_json_response)[1].tri_facility.tri_facility_id)
         self.assertEqual(2, len(parse_json_to_input_model(self.mock_json_response)))
         self.assertEqual([], parse_json_to_input_model(self.mock_json_response)[1].tri_reporting_forms)
+
+    def test_transform_input_to_output_model(self):
+        expected_output: List[ToxicAirPollutionByCompany] = [
+            ToxicAirPollutionByCompany(tri_facility_id="00602BXTRF111CO", company_names="AGUADA MUNICIPIO",
+                                       toxic_air_pollution=4, street_address="111 COLON ST", city_name="AGUADA",
+                                       county_name="AGUADA MUNICIPIO", state_abbr="PR", zip_code="00602",
+                                       cas_chem_names=['Ethylene oxide'])]
+        test_input_model = parse_json_to_input_model(self.mock_json_response)
+        self.assertEqual(expected_output[0].toxic_air_pollution,
+                         transform_input_to_output_model(test_input_model)[0].toxic_air_pollution)
+        self.assertEqual(expected_output[0].cas_chem_names,
+                         transform_input_to_output_model(test_input_model)[0].cas_chem_names)
 
 
 if __name__ == '__main__':

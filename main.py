@@ -1,6 +1,7 @@
 from typing import List
 
 from models.input import TriReportingFormsPerFacility, TriFacility, TriReportingForm
+from models.output import ToxicAirPollutionByCompany
 
 
 def parse_json_to_input_model(json_response) -> List[TriReportingFormsPerFacility]:
@@ -27,3 +28,28 @@ def parse_json_to_input_model(json_response) -> List[TriReportingFormsPerFacilit
                                                                                   tri_reporting_forms=tri_reporting_forms))
     return tri_reporting_forms_per_facility_list
 
+
+def transform_input_to_output_model(
+        tri_reporting_forms_per_facility_list: List[TriReportingFormsPerFacility]) -> List[ToxicAirPollutionByCompany]:
+    toxic_air_pollution_by_company_list = []
+
+    for i in tri_reporting_forms_per_facility_list:
+        cas_chem_names = []
+        toxic_air_pollution = 0
+
+        if len(i.tri_reporting_forms) > 0:
+
+            for j in i.tri_reporting_forms:
+                toxic_air_pollution += int(j.max_amount_of_chem)
+
+                if j.cas_chem_name not in cas_chem_names:
+                    cas_chem_names.append(j.cas_chem_name)
+
+        toxic_air_pollution_by_company: ToxicAirPollutionByCompany = ToxicAirPollutionByCompany(
+            tri_facility_id=i.tri_facility.tri_facility_id, company_names=i.tri_facility.parent_co_name,
+            street_address=i.tri_facility.street_address, city_name=i.tri_facility.city_name,
+            county_name=i.tri_facility.county_name, state_abbr=i.tri_facility.state_abbr,
+            zip_code=i.tri_facility.zip_code, cas_chem_names=cas_chem_names, toxic_air_pollution=toxic_air_pollution)
+        toxic_air_pollution_by_company_list.append(toxic_air_pollution_by_company)
+
+    return toxic_air_pollution_by_company_list
