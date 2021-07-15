@@ -2,11 +2,9 @@ import csv
 import unittest
 from typing import List
 
-from main import parse_json_to_input_model, transform_input_to_output_model, convert_output_model_to_csv, \
-    fetch_epa_tri_table
+from main import parse_json_to_input_model, transform_input_to_output_model, convert_output_model_to_csv
 from models.input import TriReportingFormsPerFacility, TriFacility, TriReportingForm
 from models.output import ToxicAirPollutionByCompany
-from util import construct_query_str
 
 
 class MainTest(unittest.TestCase):
@@ -113,8 +111,8 @@ class MainTest(unittest.TestCase):
         test_input_model = parse_json_to_input_model(self.mock_json_response)
         test_output_model = transform_input_to_output_model(test_input_model)[0]
 
-        convert_output_model_to_csv([test_output_model], 'test_output.csv')
-        with open('test_output.csv') as csv_file:
+        convert_output_model_to_csv([test_output_model], output_dir='mock_data', output_csv_name='test_output.csv')
+        with open('mock_data/test_output.csv') as csv_file:
             csv_reader = csv.reader(csv_file)
             next(csv_reader)
             for row in csv_reader:
