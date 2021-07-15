@@ -1,11 +1,15 @@
 from dataclasses import dataclass
+from typing import List
 
 
 @dataclass
 class ToxicAirPollutionByCompany:
-    id: int
-    report_date: str
+    tri_facility_id: str
     company_names: str
     toxic_air_pollution: int
-    unit: str
-    description: str
+    street_address: str
+    city_name: str
+    county_name: str
+    state_abbr: str
+    zip_code: str
+    cas_chem_names: List[str]

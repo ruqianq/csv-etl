@@ -26,3 +26,4 @@ def parse_json_to_input_model(json_response) -> List[TriReportingFormsPerFacilit
         tri_reporting_forms_per_facility_list.append(TriReportingFormsPerFacility(tri_facility=tri_facility,
                                                                                   tri_reporting_forms=tri_reporting_forms))
     return tri_reporting_forms_per_facility_list
+
