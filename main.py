@@ -1,5 +1,6 @@
 import csv
 import os
+from datetime import datetime
 from typing import List
 import logging
 
@@ -74,8 +75,10 @@ def transform_input_to_output_model(
 
 
 def convert_output_model_to_csv(toxic_air_pollution_by_company_list:List[ToxicAirPollutionByCompany], output_dir: str,
-                                output_csv_name: str):
+                                table_name: str):
+    output_csv_name = table_name + '_' + str(datetime.now().strftime('%Y%m%d')) + '.csv'
     output_csv_path = os.path.join(output_dir, output_csv_name)
+    logger.info(f'Generating {output_csv_name}')
     with open(output_csv_path, 'w+',) as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(['company name', 'tri facility id', 'toxic air pollution', 'street address', 'city name',
@@ -94,5 +97,5 @@ if __name__ == '__main__':
     api_json_response = fetch_epa_tri_table(query_str).json()
     tri_reporting_forms_per_facility_input = parse_json_to_input_model(api_json_response)
     toxic_air_pollution_by_company_output = transform_input_to_output_model(tri_reporting_forms_per_facility_input)
-    convert_output_model_to_csv(toxic_air_pollution_by_company_output, output_dir='out', output_csv_name='output.csv')
+    convert_output_model_to_csv(toxic_air_pollution_by_company_output, output_dir='out', table_name='ToxicAirPollution')
 

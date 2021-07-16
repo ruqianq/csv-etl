@@ -58,11 +58,6 @@ class MainTest(unittest.TestCase):
             }
         ]
 
-    # def test_fetch_epa_tri_facility_count(self):
-    #     test_query = construct_query_str([self.query_condition_with_condition], rows='10:11')
-    #     response = fetch_epa_tri_table(test_query)
-    #     self.assertEqual(response.status_code, 200)
-
     def test_parse_json_to_input_model(self):
         expected_output: List[TriReportingFormsPerFacility] = [
             TriReportingFormsPerFacility(
@@ -111,8 +106,8 @@ class MainTest(unittest.TestCase):
         test_input_model = parse_json_to_input_model(self.mock_json_response)
         test_output_model = transform_input_to_output_model(test_input_model)[0]
 
-        convert_output_model_to_csv([test_output_model], output_dir='mock_data', output_csv_name='test_output.csv')
-        with open('mock_data/test_output.csv') as csv_file:
+        convert_output_model_to_csv([test_output_model], output_dir='mock_data', table_name='company')
+        with open('mock_data/company_20210716.csv') as csv_file:
             csv_reader = csv.reader(csv_file)
             next(csv_reader)
             for row in csv_reader:
