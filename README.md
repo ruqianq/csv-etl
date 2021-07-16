@@ -41,4 +41,6 @@ for more information of how to utilize other API please see https://www.epa.gov/
 
 3, The JSON data would convert to input model. The input model serves as a data structure, so that we can gatekeep our input.  For example if the API change the data format or schema our process break to prevent polluting downstream analysis
 
-4, Then we need to convert the input model into the destination data structure 
+4, Convert the input model into the data structure match the desired output. 
+
+5, Once the convert is completed, produce a csv file. 
